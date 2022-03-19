@@ -1,5 +1,5 @@
 window.addEventListener("load", init);
-kepek = [
+var kepek = [
     {
         cim: "01-es kép",
         eleresiut:"./kepek/01.jpg",
@@ -31,17 +31,79 @@ kepek = [
         leírás:"Ez a hatodik cicás kép",
     },
 ]
+var aktualiskepIndex =0;
+
 function ID(elem){
     return document.getElementById(elem);
 }
+function CLASS(elem){
+    return document.getElementsByClassName(elem)
+}
+function $(elem){
+    return document.querySelectorAll(elem)
+}
 function init(){
     kiirKepek()
+    ID("galeria").style.backgroundColor="brown"
+/*     document.getElementsByClassName("kepek")[0].style.border="12 px solid gray" */
+/* for (let index = 0; index < kepek.length; index++) {
+   document.getElementsByClassName("kepek")[index].style.border ="12px solid gray" ; */
+for (let index = 0; index < kepek.length; index++) {
+   /*  CLASS("kepek")[index].style.border = "12px solid gray" 
+    CLASS('kepek')[index].style.padding = "10px"
+    document.querySelectorAll("#galeria div img")[index].style.backgroundColor= "purple" */
+    $("#galeria div")[index].className = "divekFormazasa"
+    $("#galeria div img")[index].addEventListener('click',kattintas) 
 }
+$("#bal")[0].addEventListener('click', bal)
+$("#jobb")[0].addEventListener('click', jobb)
+}
+function kattintas(event){
+   /*  console.log(event.target.id)
+    var txt =event.target
+    ID('nagykep').innerHTML=txt */
+    console.log(event.target.id)
+    aktualiskepIndex = event.target.id
+    console.log(kepek[aktualiskepIndex])
+ /*    var txt="<img src= '" +kepek[aktualiskepIndex].eleresiut+"' alt='' >"
+    ID("nagykep").innerHTML=txt */
+kepMegjelenit();
+}
+
+function kepMegjelenit(){
+    
+    var txt="<img src= '" +kepek[aktualiskepIndex].eleresiut+"' alt='' >"
+    ID("nagykep").innerHTML=txt
+}
+function bal(){
+    /*Az aktuális képindexet csökkenti egyel */
+    aktualiskepIndex-- ;
+    if(aktualiskepIndex<0){
+        aktualiskepIndex=kepek.length-1
+    }
+kepMegjelenit();
+
+
+
+}
+
+
+function jobb(){
+    /*Az aktuális képindexet növeli egyel */
+ aktualiskepIndex++ ;
+    if(aktualiskepIndex>kepek.length-1){
+        aktualiskepIndex=0
+    }
+kepMegjelenit();
+}
+
+
 function kiirKepek(){
     var txt = " ";
     for (let i = 0; i < kepek.length; i++) {
-        txt = txt + "<div>" + "<h3>"+ kepek[i].cim +"</h3>" + "<img src='"+ kepek[i].eleresiut+ "' class='kepek' alt='cicás képek'/>"+
+        txt = txt + "<div>" + "<h3>"+ kepek[i].cim +"</h3>" + "<img id='"+i+"' src='"+ kepek[i].eleresiut+ "' class='kepek' alt='cicás képek'/>"+
         "<p>"+kepek[i].leírás+"</p> </div>"
     }
     ID("galeria").innerHTML = txt;
+
 }
